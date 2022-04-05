@@ -7,7 +7,7 @@ const username = require('../models/users');
 exports.signIn = function(req, res){
 
     const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(10);
+    const salt = bcrypt.genSaltSync(saltRounds);
     const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
     let newUser = new User({
@@ -30,15 +30,19 @@ exports.signIn = function(req, res){
 
 exports.logIn = function(req, res){
 
-    User.findOne({username: req.body.username})
+    User.findOne({username: req.body.username}).exec()
     .then(result =>{
 
-        const validate = bcrypt.compareSync(req.body.password, result.password);
 
-        if(validate)res.send("The passwords are the same");
-        else res.send('Wrong password')
+            const validate = bcrypt.compareSync(req.body.password, result.password);
+            
+            if(validate)res.send("Nice");
+            else res.send('Wrong password')
+        
     })
-    .catch(error => res.send(error));
+    .catch(error => {
+        res.send("User doesn't exist.")
+    });
 
 }
 
