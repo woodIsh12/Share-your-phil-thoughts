@@ -1,9 +1,19 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const User = require('../models/users');
+const username = require('../models/users');
 
 
-exports.add = function(req, res){
-    let newUser = new User(req.body);
+exports.signIn = function(req, res){
+
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(10);
+    const hashPassword = bcrypt.hashSync(req.body.password, salt);
+
+    let newUser = new User({
+        username: req.body.username,
+        password: hashPassword
+    });
 
     newUser.save().then(result=>{
         //const id = result._id.toString();
@@ -15,6 +25,20 @@ exports.add = function(req, res){
             console.log(error);
         }
     });
+
+}
+
+exports.logIn = function(req, res){
+
+    User.findOne({username: req.body.username})
+    .then(result =>{
+
+        const validate = bcrypt.compareSync(req.body.password, result.password);
+
+        if(validate)res.send("The passwords are the same");
+        else res.send('Wrong password')
+    })
+    .catch(error => res.send(error));
 
 }
 
