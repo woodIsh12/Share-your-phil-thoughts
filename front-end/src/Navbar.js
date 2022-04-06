@@ -17,7 +17,7 @@ const NavBar = props=>{
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>ShareThou</MDBNavbarBrand>
+        <MDBNavbarBrand className='mb-0 h1' href='#'>ShareThou</MDBNavbarBrand>
         <MDBNavbarToggler
           aria-expanded='false'
           aria-label='Toggle navigation'
@@ -30,9 +30,8 @@ const NavBar = props=>{
             <MDBNavbarLink active aria-current='page' href='#'>
               Home
             </MDBNavbarLink>
-            <MDBNavbarLink href='#'>Features</MDBNavbarLink>
-            <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
-
+            <MDBNavbarLink href='#'>Authors</MDBNavbarLink>
+            <MDBNavbarLink href='#'>About</MDBNavbarLink>
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>

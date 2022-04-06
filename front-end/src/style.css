@@ -1,0 +1,40 @@
+body{
+    
+}
+.container{
+    max-width: 95vw;
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+.thoughts-container{
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-column-gap: 2rem;
+    grid-row-gap: 3rem;
+    margin: 5% 4%;
+}
+
+.individual-container{
+    padding: 3%;
+    border-style: dotted;
+    border-radius: 3%;
+}
+
+.expanded{
+    margin-top: 0;
+    padding: 0;
+}
+.expandedP{
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.author{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 1.5rem;
+    
+}
