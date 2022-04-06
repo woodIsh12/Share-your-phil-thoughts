@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import IndividualThought from './Thought';
+import IndividualThought from './components/Thought';
 
 
 const Thoughts = props=>{

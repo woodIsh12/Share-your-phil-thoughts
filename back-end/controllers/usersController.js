@@ -18,11 +18,9 @@ exports.signIn = function(req, res){
     newUser.save().then(result=>{
         //const id = result._id.toString();
         res.status(200).send(result);
-    })
-    .catch(error => {
+    }).catch(error => {
         if(error.code == 11000){
-            res.status(500).send("This username already exists.");
-            console.log(error);
+            res.send({alreadyExists: "This username already exists."});
         }
     });
 
@@ -36,22 +34,13 @@ exports.logIn = function(req, res){
 
             const validate = bcrypt.compareSync(req.body.password, result.password);
             
-            if(validate)res.send("Nice");
-            else res.send('Wrong password')
+            if(validate)res.send(result);
+            else res.send({error: "Wrong Credentials"});
         
     })
     .catch(error => {
-        res.send("User doesn't exist.")
+        res.send({error1: "Wrong Credentials", error:error})
     });
 
 }
 
-/*exports.users = function(req, res){
-    Thought.aggregate([{ $sample : {size: 1}}]).exec()
-    .then(result=>{
-        res.status(200).send(result);
-    })
-    .catch(error=>{
-        res.status(500).send(error);
-    })
-}*/
