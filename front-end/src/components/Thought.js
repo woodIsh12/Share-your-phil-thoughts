@@ -29,6 +29,10 @@ const IndividualThought = props=>{
         </button></>: <></>}
             </div>
             <p>{props.thought.username}</p>
+            <button className='delete-button'><div className="icons8-delete">
+            <span className="tooltiptext">Delete Thought</span>
+            </div></button>
+            
         </div>
         </>
     );

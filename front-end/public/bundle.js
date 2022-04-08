@@ -16742,17 +16742,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var App = function App(props) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
-      loggedUsername = _useState2[0],
-      setLoggedUsername = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState4 = _slicedToArray(_useState3, 2),
-      loadingUser = _useState4[0],
-      setLoadingUser = _useState4[1];
+      changingThoughts = _useState2[0],
+      setChangingThoughts = _useState2[1];
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_navBar__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_thoughts__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_thoughts__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    changingThoughts: changingThoughts
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    setChangingThoughts: setChangingThoughts
+  })));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -16793,22 +16792,42 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Authentication = function Authentication(props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      loggedUsername = _useState2[0],
-      setLoggedUsername = _useState2[1];
+      isLogged = _useState2[0],
+      setIsLogged = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      loadingUser = _useState4[0],
-      setLoadingUser = _useState4[1];
+      loggedUsername = _useState4[0],
+      setLoggedUsername = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      loadingUser = _useState6[0],
+      setLoadingUser = _useState6[1];
+
+  var handleLogOut = function handleLogOut(event) {
+    setLoggedUsername("");
+    setIsLogged(false);
+  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "forms-container"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Hello forms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Login__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, isLogged ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Hello ", loggedUsername) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Want to Write?"), !isLogged ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Login__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    setIsLogged: setIsLogged,
     setLoggedUsername: setLoggedUsername,
     setLoadingUser: setLoadingUser
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Signin__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_NewThought__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Signin__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    setIsLogged: setIsLogged
+  }), " ") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), isLogged ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_NewThought__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    setChangingThoughts: props.setChangingThoughts,
+    loggedUsername: loggedUsername
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    onClick: function onClick(event) {
+      return handleLogOut(event);
+    }
+  }, "Log out")));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Authentication);
@@ -16877,6 +16896,7 @@ var LogInForm = function LogInForm(props) {
       password: password
     }).then(function (result) {
       console.log(result.data);
+      props.setIsLogged(true);
       props.setLoggedUsername(result.data.username);
       props.setLoadingUser(false);
     })["catch"](function (error) {
@@ -16892,7 +16912,7 @@ var LogInForm = function LogInForm(props) {
         return !prevExpanded;
       });
     }
-  }), isExpanded ? 'Collapse' : 'Expand'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", _extends({
+  }), isExpanded ? 'Collapse' : 'Log In'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", _extends({
     className: "form",
     onSubmit: function onSubmit(event) {
       return handleLogin(event);
@@ -16967,21 +16987,38 @@ var NewThought = function NewThought(props) {
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      username = _useState4[0],
-      setUsername = _useState4[1];
+      title = _useState4[0],
+      setTitle = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState6 = _slicedToArray(_useState5, 2),
-      password = _useState6[0],
-      setPassword = _useState6[1];
+      content = _useState6[0],
+      setContent = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState8 = _slicedToArray(_useState7, 2),
-      confirmPassword = _useState8[0],
-      setConfirmPassword = _useState8[1];
+      quote = _useState8[0],
+      setQuote = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState10 = _slicedToArray(_useState9, 2),
+      authorOfQuote = _useState10[0],
+      setQuoteAuthor = _useState10[1];
 
   var handleNewThought = function handleNewThought(event) {
     event.preventDefault();
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('http://localhost:8080/api/v1/thoughts', {
+      title: title,
+      content: content,
+      quote: quote,
+      authorOfQuote: authorOfQuote,
+      username: props.loggedUsername
+    }).then(function (result) {
+      console.log(result);
+      props.setChangingThoughts(title);
+    })["catch"](function (error) {
+      console.log(error);
+    });
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -16992,12 +17029,46 @@ var NewThought = function NewThought(props) {
         return !prevExpanded;
       });
     }
-  }), isExpanded ? 'Collapse' : 'Expand'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", _extends({
+  }), isExpanded ? 'Collapse' : 'Write'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", _extends({
     className: "form",
     onSubmit: function onSubmit(event) {
       return handleNewThought(event);
     }
-  }, getCollapseProps()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "New Thought"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, "Sign In"))));
+  }, getCollapseProps()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "New Thought"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    required: true,
+    placeholder: "Title",
+    value: title,
+    onInput: function onInput(event) {
+      return setTitle(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+    required: true,
+    placeholder: "Content",
+    rows: 4,
+    style: {
+      width: "90%"
+    },
+    value: content,
+    onInput: function onInput(event) {
+      return setContent(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+    placeholder: "Quote",
+    rows: 4,
+    style: {
+      width: "90%"
+    },
+    value: quote,
+    onInput: function onInput(event) {
+      return setQuote(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+    placeholder: "Quote Author",
+    value: authorOfQuote,
+    onInput: function onInput(event) {
+      return setQuoteAuthor(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, "Post it"))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NewThought);
@@ -17094,7 +17165,7 @@ var Signin = function Signin(props) {
         return !prevExpanded;
       });
     }
-  }), isExpanded ? 'Collapse' : 'Expand'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", _extends({
+  }), isExpanded ? 'Collapse' : 'sign In'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", _extends({
     className: "form",
     onSubmit: function onSubmit(event) {
       return handleSignin(event);
@@ -17186,7 +17257,13 @@ var IndividualThought = function IndividualThought(props) {
         return !prevExpanded;
       });
     }
-  }), isExpanded ? 'Collapse' : 'Expand')) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, props.thought.username)));
+  }), isExpanded ? 'Collapse' : 'Expand')) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, props.thought.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "delete-button"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "icons8-delete"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "tooltiptext"
+  }, "Delete Thought")))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (IndividualThought);
@@ -17314,7 +17391,7 @@ var Thoughts = function Thoughts(props) {
     })["catch"](function (error) {
       console.log(error);
     });
-  }, []);
+  }, [props.changingThoughts]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Waiting") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "thoughts-container"
   }, thoughtsArr.map(function (thought) {
@@ -17376,7 +17453,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body{\r\n    \r\n}\r\n.container{\r\n    max-width: 95vw;\r\n    display: grid;\r\n    grid-template-columns: 60% 40%;\r\n}\r\n.thoughts-container{\r\n    margin-top: 3rem;\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\r\n    grid-column-gap: 2rem;\r\n    grid-row-gap: 3rem;\r\n    margin: 5% 4%;\r\n}\r\n\r\n.individual-container{\r\n    padding: 3%;\r\n    border-style: dotted;\r\n    border-radius: 3%;\r\n}\r\n\r\n.expanded{\r\n    margin-top: 0;\r\n    padding: 0;\r\n}\r\n.expandedP{\r\n    margin-bottom: 0;\r\n    padding: 0;\r\n}\r\n\r\n.author{\r\n    width: auto;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    margin-right: 1.5rem;\r\n    \r\n}\r\n", "",{"version":3,"sources":["webpack://./src/style.css"],"names":[],"mappings":"AAAA;;AAEA;AACA;IACI,eAAe;IACf,aAAa;IACb,8BAA8B;AAClC;AACA;IACI,gBAAgB;IAChB,aAAa;IACb,2DAA2D;IAC3D,qBAAqB;IACrB,kBAAkB;IAClB,aAAa;AACjB;;AAEA;IACI,WAAW;IACX,oBAAoB;IACpB,iBAAiB;AACrB;;AAEA;IACI,aAAa;IACb,UAAU;AACd;AACA;IACI,gBAAgB;IAChB,UAAU;AACd;;AAEA;IACI,WAAW;IACX,aAAa;IACb,mBAAmB;IACnB,yBAAyB;IACzB,oBAAoB;;AAExB","sourcesContent":["body{\r\n    \r\n}\r\n.container{\r\n    max-width: 95vw;\r\n    display: grid;\r\n    grid-template-columns: 60% 40%;\r\n}\r\n.thoughts-container{\r\n    margin-top: 3rem;\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\r\n    grid-column-gap: 2rem;\r\n    grid-row-gap: 3rem;\r\n    margin: 5% 4%;\r\n}\r\n\r\n.individual-container{\r\n    padding: 3%;\r\n    border-style: dotted;\r\n    border-radius: 3%;\r\n}\r\n\r\n.expanded{\r\n    margin-top: 0;\r\n    padding: 0;\r\n}\r\n.expandedP{\r\n    margin-bottom: 0;\r\n    padding: 0;\r\n}\r\n\r\n.author{\r\n    width: auto;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    margin-right: 1.5rem;\r\n    \r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body{\r\n    \r\n}\r\n.container{\r\n    max-width: 95vw;\r\n    display: grid;\r\n    grid-template-columns: 60% 40%;\r\n}\r\n.thoughts-container{\r\n    margin-top: 3rem;\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\r\n    grid-column-gap: 2rem;\r\n    grid-row-gap: 3rem;\r\n    margin: 5% 4%;\r\n}\r\n\r\n.individual-container{\r\n    padding: 3%;\r\n    border-style: dotted;\r\n    border-radius: 3%;\r\n}\r\n\r\n.expanded{\r\n    margin-top: 0;\r\n    padding: 0;\r\n}\r\n.expandedP{\r\n    margin-bottom: 0;\r\n    padding: 0;\r\n}\r\n\r\n.author{\r\n    width: auto;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    margin-right: 1.5rem;\r\n    \r\n}\r\n\r\n.icons8-delete { \r\n    display: inline-block;\r\n    width: 30px;\r\n    height: 30px;\r\n    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIKdmlld0JveD0iMCAwIDEwMCAxMDAiCnN0eWxlPSIgZmlsbDojMDAwMDAwOyI+PHBhdGggZmlsbD0iI2YzN2U5OCIgZD0iTTI1LDMwbDMuNjQ1LDQ3LjM4M0MyOC44NDUsNzkuOTg4LDMxLjAxNyw4MiwzMy42Myw4MmgzMi43NGMyLjYxMywwLDQuNzg1LTIuMDEyLDQuOTg1LTQuNjE3TDc1LDMwIj48L3BhdGg+PHBhdGggZmlsbD0iI2YxNWI2YyIgZD0iTTY1IDM4djM1YzAgMS42NS0xLjM1IDMtMyAzcy0zLTEuMzUtMy0zVjM4YzAtMS42NSAxLjM1LTMgMy0zUzY1IDM2LjM1IDY1IDM4ek01MyAzOHYzNWMwIDEuNjUtMS4zNSAzLTMgM3MtMy0xLjM1LTMtM1YzOGMwLTEuNjUgMS4zNS0zIDMtM1M1MyAzNi4zNSA1MyAzOHpNNDEgMzh2MzVjMCAxLjY1LTEuMzUgMy0zIDNzLTMtMS4zNS0zLTNWMzhjMC0xLjY1IDEuMzUtMyAzLTNTNDEgMzYuMzUgNDEgMzh6TTc3IDI0aC00bC0xLjgzNS0zLjA1OEM3MC40NDIgMTkuNzM3IDY5LjE0IDE5IDY3LjczNSAxOWgtMzUuNDdjLTEuNDA1IDAtMi43MDcuNzM3LTMuNDMgMS45NDJMMjcgMjRoLTRjLTEuNjU3IDAtMyAxLjM0My0zIDNzMS4zNDMgMyAzIDNoNTRjMS42NTcgMCAzLTEuMzQzIDMtM1M3OC42NTcgMjQgNzcgMjR6Ij48L3BhdGg+PHBhdGggZmlsbD0iIzFmMjEyYiIgZD0iTTY2LjM3IDgzSDMzLjYzYy0zLjExNiAwLTUuNzQ0LTIuNDM0LTUuOTgyLTUuNTRsLTMuNjQ1LTQ3LjM4MyAxLjk5NC0uMTU0IDMuNjQ1IDQ3LjM4NEMyOS44MDEgNzkuMzc4IDMxLjU1MyA4MSAzMy42MyA4MUg2Ni4zN2MyLjA3NyAwIDMuODI5LTEuNjIyIDMuOTg4LTMuNjkybDMuNjQ1LTQ3LjM4NSAxLjk5NC4xNTQtMy42NDUgNDcuMzg0QzcyLjExMyA4MC41NjYgNjkuNDg1IDgzIDY2LjM3IDgzek01NiAyMGMtLjU1MiAwLTEtLjQ0Ny0xLTF2LTNjMC0uNTUyLS40NDktMS0xLTFoLThjLS41NTEgMC0xIC40NDgtMSAxdjNjMCAuNTUzLS40NDggMS0xIDFzLTEtLjQ0Ny0xLTF2LTNjMC0xLjY1NCAxLjM0Ni0zIDMtM2g4YzEuNjU0IDAgMyAxLjM0NiAzIDN2M0M1NyAxOS41NTMgNTYuNTUyIDIwIDU2IDIweiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMxZjIxMmIiIGQ9Ik03NywzMUgyM2MtMi4yMDYsMC00LTEuNzk0LTQtNHMxLjc5NC00LDQtNGgzLjQzNGwxLjU0My0yLjU3MkMyOC44NzUsMTguOTMxLDMwLjUxOCwxOCwzMi4yNjUsMThoMzUuNDcxYzEuNzQ3LDAsMy4zODksMC45MzEsNC4yODcsMi40MjhMNzMuNTY2LDIzSDc3YzIuMjA2LDAsNCwxLjc5NCw0LDRTNzkuMjA2LDMxLDc3LDMxeiBNMjMsMjVjLTEuMTAzLDAtMiwwLjg5Ny0yLDJzMC44OTcsMiwyLDJoNTRjMS4xMDMsMCwyLTAuODk3LDItMnMtMC44OTctMi0yLTJoLTRjLTAuMzUxLDAtMC42NzctMC4xODUtMC44NTctMC40ODVsLTEuODM1LTMuMDU4QzY5Ljc2OSwyMC41NTksNjguNzgzLDIwLDY3LjczNSwyMEgzMi4yNjVjLTEuMDQ4LDAtMi4wMzMsMC41NTktMi41NzIsMS40NTdsLTEuODM1LDMuMDU4QzI3LjY3NywyNC44MTUsMjcuMzUxLDI1LDI3LDI1SDIzeiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMxZjIxMmIiIGQ9Ik02MS41IDI1aC0zNmMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDM2Yy4yNzYgMCAuNS4yMjQuNS41UzYxLjc3NiAyNSA2MS41IDI1ek03My41IDI1aC01Yy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoNWMuMjc2IDAgLjUuMjI0LjUuNVM3My43NzYgMjUgNzMuNSAyNXpNNjYuNSAyNWgtMmMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDJjLjI3NiAwIC41LjIyNC41LjVTNjYuNzc2IDI1IDY2LjUgMjV6TTUwIDc2Yy0xLjY1NCAwLTMtMS4zNDYtMy0zVjM4YzAtMS42NTQgMS4zNDYtMyAzLTNzMyAxLjM0NiAzIDN2MjUuNWMwIC4yNzYtLjIyNC41LS41LjVTNTIgNjMuNzc2IDUyIDYzLjVWMzhjMC0xLjEwMy0uODk3LTItMi0ycy0yIC44OTctMiAydjM1YzAgMS4xMDMuODk3IDIgMiAyczItLjg5NyAyLTJ2LTMuNWMwLS4yNzYuMjI0LS41LjUtLjVzLjUuMjI0LjUuNVY3M0M1MyA3NC42NTQgNTEuNjU0IDc2IDUwIDc2ek02MiA3NmMtMS42NTQgMC0zLTEuMzQ2LTMtM1Y0Ny41YzAtLjI3Ni4yMjQtLjUuNS0uNXMuNS4yMjQuNS41VjczYzAgMS4xMDMuODk3IDIgMiAyczItLjg5NyAyLTJWMzhjMC0xLjEwMy0uODk3LTItMi0ycy0yIC44OTctMiAydjEuNWMwIC4yNzYtLjIyNC41LS41LjVTNTkgMzkuNzc2IDU5IDM5LjVWMzhjMC0xLjY1NCAxLjM0Ni0zIDMtM3MzIDEuMzQ2IDMgM3YzNUM2NSA3NC42NTQgNjMuNjU0IDc2IDYyIDc2eiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMxZjIxMmIiIGQ9Ik01OS41IDQ1Yy0uMjc2IDAtLjUtLjIyNC0uNS0uNXYtMmMwLS4yNzYuMjI0LS41LjUtLjVzLjUuMjI0LjUuNXYyQzYwIDQ0Ljc3NiA1OS43NzYgNDUgNTkuNSA0NXpNMzggNzZjLTEuNjU0IDAtMy0xLjM0Ni0zLTNWMzhjMC0xLjY1NCAxLjM0Ni0zIDMtM3MzIDEuMzQ2IDMgM3YzNUM0MSA3NC42NTQgMzkuNjU0IDc2IDM4IDc2ek0zOCAzNmMtMS4xMDMgMC0yIC44OTctMiAydjM1YzAgMS4xMDMuODk3IDIgMiAyczItLjg5NyAyLTJWMzhDNDAgMzYuODk3IDM5LjEwMyAzNiAzOCAzNnoiPjwvcGF0aD48L3N2Zz4=') 50% 50% no-repeat;\r\n    background-size: 100%; \r\n    margin-right: auto;\r\n    padding: 5px 0;\r\n    \r\n}\r\n\r\n.delete-button{\r\n    border: none;\r\n    background-color: white;\r\n}\r\n\r\n.tooltiptext{\r\n    visibility: hidden;\r\n    padding: 5px 0;\r\n    left: 38px;\r\n    position: relative;\r\n    z-index: 1;\r\n}\r\n\r\n.icons8-delete:hover .tooltiptext{\r\n    border: none;\r\n    background-color: white;\r\n    width: 35px;\r\n    height: 35px;\r\n    visibility: visible;\r\n\r\n}", "",{"version":3,"sources":["webpack://./src/style.css"],"names":[],"mappings":"AAAA;;AAEA;AACA;IACI,eAAe;IACf,aAAa;IACb,8BAA8B;AAClC;AACA;IACI,gBAAgB;IAChB,aAAa;IACb,2DAA2D;IAC3D,qBAAqB;IACrB,kBAAkB;IAClB,aAAa;AACjB;;AAEA;IACI,WAAW;IACX,oBAAoB;IACpB,iBAAiB;AACrB;;AAEA;IACI,aAAa;IACb,UAAU;AACd;AACA;IACI,gBAAgB;IAChB,UAAU;AACd;;AAEA;IACI,WAAW;IACX,aAAa;IACb,mBAAmB;IACnB,yBAAyB;IACzB,oBAAoB;;AAExB;;AAEA;IACI,qBAAqB;IACrB,WAAW;IACX,YAAY;IACZ,uhHAAuhH;IACvhH,qBAAqB;IACrB,kBAAkB;IAClB,cAAc;;AAElB;;AAEA;IACI,YAAY;IACZ,uBAAuB;AAC3B;;AAEA;IACI,kBAAkB;IAClB,cAAc;IACd,UAAU;IACV,kBAAkB;IAClB,UAAU;AACd;;AAEA;IACI,YAAY;IACZ,uBAAuB;IACvB,WAAW;IACX,YAAY;IACZ,mBAAmB;;AAEvB","sourcesContent":["body{\r\n    \r\n}\r\n.container{\r\n    max-width: 95vw;\r\n    display: grid;\r\n    grid-template-columns: 60% 40%;\r\n}\r\n.thoughts-container{\r\n    margin-top: 3rem;\r\n    display: grid;\r\n    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\r\n    grid-column-gap: 2rem;\r\n    grid-row-gap: 3rem;\r\n    margin: 5% 4%;\r\n}\r\n\r\n.individual-container{\r\n    padding: 3%;\r\n    border-style: dotted;\r\n    border-radius: 3%;\r\n}\r\n\r\n.expanded{\r\n    margin-top: 0;\r\n    padding: 0;\r\n}\r\n.expandedP{\r\n    margin-bottom: 0;\r\n    padding: 0;\r\n}\r\n\r\n.author{\r\n    width: auto;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    margin-right: 1.5rem;\r\n    \r\n}\r\n\r\n.icons8-delete { \r\n    display: inline-block;\r\n    width: 30px;\r\n    height: 30px;\r\n    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIKdmlld0JveD0iMCAwIDEwMCAxMDAiCnN0eWxlPSIgZmlsbDojMDAwMDAwOyI+PHBhdGggZmlsbD0iI2YzN2U5OCIgZD0iTTI1LDMwbDMuNjQ1LDQ3LjM4M0MyOC44NDUsNzkuOTg4LDMxLjAxNyw4MiwzMy42Myw4MmgzMi43NGMyLjYxMywwLDQuNzg1LTIuMDEyLDQuOTg1LTQuNjE3TDc1LDMwIj48L3BhdGg+PHBhdGggZmlsbD0iI2YxNWI2YyIgZD0iTTY1IDM4djM1YzAgMS42NS0xLjM1IDMtMyAzcy0zLTEuMzUtMy0zVjM4YzAtMS42NSAxLjM1LTMgMy0zUzY1IDM2LjM1IDY1IDM4ek01MyAzOHYzNWMwIDEuNjUtMS4zNSAzLTMgM3MtMy0xLjM1LTMtM1YzOGMwLTEuNjUgMS4zNS0zIDMtM1M1MyAzNi4zNSA1MyAzOHpNNDEgMzh2MzVjMCAxLjY1LTEuMzUgMy0zIDNzLTMtMS4zNS0zLTNWMzhjMC0xLjY1IDEuMzUtMyAzLTNTNDEgMzYuMzUgNDEgMzh6TTc3IDI0aC00bC0xLjgzNS0zLjA1OEM3MC40NDIgMTkuNzM3IDY5LjE0IDE5IDY3LjczNSAxOWgtMzUuNDdjLTEuNDA1IDAtMi43MDcuNzM3LTMuNDMgMS45NDJMMjcgMjRoLTRjLTEuNjU3IDAtMyAxLjM0My0zIDNzMS4zNDMgMyAzIDNoNTRjMS42NTcgMCAzLTEuMzQzIDMtM1M3OC42NTcgMjQgNzcgMjR6Ij48L3BhdGg+PHBhdGggZmlsbD0iIzFmMjEyYiIgZD0iTTY2LjM3IDgzSDMzLjYzYy0zLjExNiAwLTUuNzQ0LTIuNDM0LTUuOTgyLTUuNTRsLTMuNjQ1LTQ3LjM4MyAxLjk5NC0uMTU0IDMuNjQ1IDQ3LjM4NEMyOS44MDEgNzkuMzc4IDMxLjU1MyA4MSAzMy42MyA4MUg2Ni4zN2MyLjA3NyAwIDMuODI5LTEuNjIyIDMuOTg4LTMuNjkybDMuNjQ1LTQ3LjM4NSAxLjk5NC4xNTQtMy42NDUgNDcuMzg0QzcyLjExMyA4MC41NjYgNjkuNDg1IDgzIDY2LjM3IDgzek01NiAyMGMtLjU1MiAwLTEtLjQ0Ny0xLTF2LTNjMC0uNTUyLS40NDktMS0xLTFoLThjLS41NTEgMC0xIC40NDgtMSAxdjNjMCAuNTUzLS40NDggMS0xIDFzLTEtLjQ0Ny0xLTF2LTNjMC0xLjY1NCAxLjM0Ni0zIDMtM2g4YzEuNjU0IDAgMyAxLjM0NiAzIDN2M0M1NyAxOS41NTMgNTYuNTUyIDIwIDU2IDIweiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMxZjIxMmIiIGQ9Ik03NywzMUgyM2MtMi4yMDYsMC00LTEuNzk0LTQtNHMxLjc5NC00LDQtNGgzLjQzNGwxLjU0My0yLjU3MkMyOC44NzUsMTguOTMxLDMwLjUxOCwxOCwzMi4yNjUsMThoMzUuNDcxYzEuNzQ3LDAsMy4zODksMC45MzEsNC4yODcsMi40MjhMNzMuNTY2LDIzSDc3YzIuMjA2LDAsNCwxLjc5NCw0LDRTNzkuMjA2LDMxLDc3LDMxeiBNMjMsMjVjLTEuMTAzLDAtMiwwLjg5Ny0yLDJzMC44OTcsMiwyLDJoNTRjMS4xMDMsMCwyLTAuODk3LDItMnMtMC44OTctMi0yLTJoLTRjLTAuMzUxLDAtMC42NzctMC4xODUtMC44NTctMC40ODVsLTEuODM1LTMuMDU4QzY5Ljc2OSwyMC41NTksNjguNzgzLDIwLDY3LjczNSwyMEgzMi4yNjVjLTEuMDQ4LDAtMi4wMzMsMC41NTktMi41NzIsMS40NTdsLTEuODM1LDMuMDU4QzI3LjY3NywyNC44MTUsMjcuMzUxLDI1LDI3LDI1SDIzeiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMxZjIxMmIiIGQ9Ik02MS41IDI1aC0zNmMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDM2Yy4yNzYgMCAuNS4yMjQuNS41UzYxLjc3NiAyNSA2MS41IDI1ek03My41IDI1aC01Yy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoNWMuMjc2IDAgLjUuMjI0LjUuNVM3My43NzYgMjUgNzMuNSAyNXpNNjYuNSAyNWgtMmMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDJjLjI3NiAwIC41LjIyNC41LjVTNjYuNzc2IDI1IDY2LjUgMjV6TTUwIDc2Yy0xLjY1NCAwLTMtMS4zNDYtMy0zVjM4YzAtMS42NTQgMS4zNDYtMyAzLTNzMyAxLjM0NiAzIDN2MjUuNWMwIC4yNzYtLjIyNC41LS41LjVTNTIgNjMuNzc2IDUyIDYzLjVWMzhjMC0xLjEwMy0uODk3LTItMi0ycy0yIC44OTctMiAydjM1YzAgMS4xMDMuODk3IDIgMiAyczItLjg5NyAyLTJ2LTMuNWMwLS4yNzYuMjI0LS41LjUtLjVzLjUuMjI0LjUuNVY3M0M1MyA3NC42NTQgNTEuNjU0IDc2IDUwIDc2ek02MiA3NmMtMS42NTQgMC0zLTEuMzQ2LTMtM1Y0Ny41YzAtLjI3Ni4yMjQtLjUuNS0uNXMuNS4yMjQuNS41VjczYzAgMS4xMDMuODk3IDIgMiAyczItLjg5NyAyLTJWMzhjMC0xLjEwMy0uODk3LTItMi0ycy0yIC44OTctMiAydjEuNWMwIC4yNzYtLjIyNC41LS41LjVTNTkgMzkuNzc2IDU5IDM5LjVWMzhjMC0xLjY1NCAxLjM0Ni0zIDMtM3MzIDEuMzQ2IDMgM3YzNUM2NSA3NC42NTQgNjMuNjU0IDc2IDYyIDc2eiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMxZjIxMmIiIGQ9Ik01OS41IDQ1Yy0uMjc2IDAtLjUtLjIyNC0uNS0uNXYtMmMwLS4yNzYuMjI0LS41LjUtLjVzLjUuMjI0LjUuNXYyQzYwIDQ0Ljc3NiA1OS43NzYgNDUgNTkuNSA0NXpNMzggNzZjLTEuNjU0IDAtMy0xLjM0Ni0zLTNWMzhjMC0xLjY1NCAxLjM0Ni0zIDMtM3MzIDEuMzQ2IDMgM3YzNUM0MSA3NC42NTQgMzkuNjU0IDc2IDM4IDc2ek0zOCAzNmMtMS4xMDMgMC0yIC44OTctMiAydjM1YzAgMS4xMDMuODk3IDIgMiAyczItLjg5NyAyLTJWMzhDNDAgMzYuODk3IDM5LjEwMyAzNiAzOCAzNnoiPjwvcGF0aD48L3N2Zz4=') 50% 50% no-repeat;\r\n    background-size: 100%; \r\n    margin-right: auto;\r\n    padding: 5px 0;\r\n    \r\n}\r\n\r\n.delete-button{\r\n    border: none;\r\n    background-color: white;\r\n}\r\n\r\n.tooltiptext{\r\n    visibility: hidden;\r\n    padding: 5px 0;\r\n    left: 38px;\r\n    position: relative;\r\n    z-index: 1;\r\n}\r\n\r\n.icons8-delete:hover .tooltiptext{\r\n    border: none;\r\n    background-color: white;\r\n    width: 35px;\r\n    height: 35px;\r\n    visibility: visible;\r\n\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

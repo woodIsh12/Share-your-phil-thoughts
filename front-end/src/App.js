@@ -10,14 +10,13 @@ import Authentication from './Authentication';
 
 const App = props =>{
 
-    const [loggedUsername, setLoggedUsername] = useState("");
-    const [loadingUser, setLoadingUser] = useState(true);
+    const [changingThoughts, setChangingThoughts] = useState("");
 
     return(<>
     <NavBar />
     <div className='container'>
-    <Thoughts/>
-    <Authentication />
+    <Thoughts changingThoughts={changingThoughts}/>
+    <Authentication setChangingThoughts={setChangingThoughts}/>
     </div>
 
     </>)

@@ -18,6 +18,7 @@ const LogInForm = props=>{
         axios.post('http://localhost:8080/api/v1/log-in', {username:username, password:password })
         .then(result =>{
             console.log(result.data);
+            props.setIsLogged(true);
             props.setLoggedUsername(result.data.username);
             props.setLoadingUser(false);
         }).catch(error => console.log(error));
@@ -31,7 +32,7 @@ const LogInForm = props=>{
             {...getToggleProps({
                 onClick: () => setExpanded((prevExpanded) => !prevExpanded),
             })}>
-        {isExpanded ? 'Collapse' : 'Expand'}
+        {isExpanded ? 'Collapse' : 'Log In'}
         </button>
         <form className='form' onSubmit={event => handleLogin(event)}  {...getCollapseProps()}>
             <h2>User log in</h2>

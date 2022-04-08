@@ -39,7 +39,7 @@ const Signin = props=>{
             {...getToggleProps({
                 onClick: () => setExpanded((prevExpanded) => !prevExpanded),
             })}>
-        {isExpanded ? 'Collapse' : 'Expand'}
+        {isExpanded ? 'Collapse' : 'sign In'}
         </button>
         <form className='form' onSubmit={event => handleSignin(event)}  {...getCollapseProps()}>
             <h2>User Sign in</h2>

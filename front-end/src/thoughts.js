@@ -19,7 +19,7 @@ const Thoughts = props=>{
         }).catch(error =>{
             console.log(error);
         })
-    }, []);
+    }, [props.changingThoughts]);
 
 
     return(<>
